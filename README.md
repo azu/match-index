@@ -21,7 +21,7 @@ Example of `matchCaptureGroupAll()`
 
 ```js
 // get "ABC" and "EFC that are captured by ( and )
-const captureGroups = matchCaptureGroupAll("ABC 231kskjds asdlkl EFG", /(ABC).*?(EFG)/);
+const captureGroups = matchCaptureGroupAll("ABC EFG", /(ABC).*?(EFG)/);
 // captureGroups is array of MatchAllGroup
 /**
  * @typedef {Object} MatchAllGroup
