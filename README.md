@@ -5,6 +5,33 @@ Get index of each capture.
 - [Get index of each capture in a JavaScript regex - Stack Overflow](http://stackoverflow.com/questions/15934353/get-index-of-each-capture-in-a-javascript-regex)
 - [tc39/String.prototype.matchAll: ES Proposal, specs, tests, reference implementation, and polyfill/shim for String.prototype.matchAll](https://github.com/tc39/String.prototype.matchAll#rationale)
 
+## Why?
+
+You want to match a regex like `/(a).(b)(c.)d/` with "aabccde", and get the following information back:
+
+    "a" at index = 0
+    "b" at index = 2
+    "cc" at index = 3
+
+But, it is difficult to write.
+
+`match-index` provide `matchCaptureGroupAll` function that easy to get this information!
+
+```js
+const text = "aabccde";
+const regExp = /(a).(b)(c.)d/;
+const captureGroups = matchCaptureGroupAll(text, regExp);
+// array of `MatchCaptureGroup`
+assert.equal(captureGroups.length, 3);
+const [a, b, c]= captureGroups;
+assert.equal(a.text, "a");
+assert.equal(a.index, 1);
+assert.equal(b.text, "b");
+assert.equal(b.index, 2);
+assert.equal(c.text, "cc");
+assert.equal(c.index, 3);
+```
+
 ## Installation
 
     npm install match-index

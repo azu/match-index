@@ -19,6 +19,19 @@ describe("match-index-test", function () {
                 assert.equal(x.text, "ABC");
                 assert.equal(x.index, 8);
             });
+            it("example should return correct", function () {
+                const text = "aabccde";
+                const regExp = /(a).(b)(c.)d/;
+                const captureGroups = matchCaptureGroupAll(text, regExp);
+                assert.equal(captureGroups.length, 3);
+                const [a, b, c ]= captureGroups;
+                assert.equal(a.text, "a");
+                assert.equal(a.index, 1);
+                assert.equal(b.text, "b");
+                assert.equal(b.index, 2);
+                assert.equal(c.text, "cc");
+                assert.equal(c.index, 3);
+            });
         });
         context("when multiple hit!", function () {
             it("should get multiple results", function () {
