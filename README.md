@@ -1,4 +1,4 @@
-# match-index
+# match-index [![Build Status](https://travis-ci.org/azu/match-index.svg?branch=master)](https://travis-ci.org/azu/match-index)
 
 Get index of each capture.
 
