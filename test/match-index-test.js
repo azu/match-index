@@ -21,12 +21,12 @@ describe("match-index-test", function () {
             });
             it("example should return correct", function () {
                 const text = "aabccde";
-                const regExp = /(a).(b)(c.)d/;
+                const regExp = /(a.)(b)(c.)d/;
                 const captureGroups = matchCaptureGroupAll(text, regExp);
                 assert.equal(captureGroups.length, 3);
                 const [a, b, c ]= captureGroups;
-                assert.equal(a.text, "a");
-                assert.equal(a.index, 1);
+                assert.equal(a.text, "aa");
+                assert.equal(a.index, 0);
                 assert.equal(b.text, "b");
                 assert.equal(b.index, 2);
                 assert.equal(c.text, "cc");
