@@ -7,9 +7,9 @@ Get index of each capture.
 
 ## Why?
 
-You want to match a regex like `/(a).(b)(c.)d/` with "aabccde", and get the following information back:
+You want to match a regex like `/(a.)(b)(c.)d/` with "aabccde", and get the following information back:
 
-    "a" at index = 0
+    "aa" at index = 0
     "b" at index = 2
     "cc" at index = 3
 
