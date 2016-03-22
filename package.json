@@ -13,7 +13,11 @@
   },
   "version": "1.0.0",
   "description": "match capture groups and return index",
-  "main": "index.js",
+  "main": "lib/match-index.js",
+  "files": [
+    "lib/",
+    "src/"
+  ],
   "directories": {
     "test": "test"
   },
