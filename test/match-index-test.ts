@@ -2,6 +2,7 @@
 "use strict";
 import assert from "assert";
 import {matchAll, matchCaptureGroupAll} from "../src/match-index";
+
 describe("match-index-test", function () {
     describe("#matchCaptureGroupAll", function () {
         context("when not include ( or ) ", function () {
@@ -24,7 +25,7 @@ describe("match-index-test", function () {
                 const regExp = /(a.)(b)(c.)d/;
                 const captureGroups = matchCaptureGroupAll(text, regExp);
                 assert.strictEqual(captureGroups.length, 3);
-                const [a, b, c ]= captureGroups;
+                const [a, b, c] = captureGroups;
                 assert.strictEqual(a.text, "aa");
                 assert.strictEqual(a.index, 0);
                 assert.strictEqual(b.text, "b");
@@ -140,5 +141,18 @@ describe("match-index-test", function () {
                 }
             ]);
         });
+        it("fix https://github.com/azu/match-index/issues/2", () => {
+            const text = 'abc1abc1';
+            const regexp = /([a-z])*([a-z])*(1)/;
+            const captureGroups = matchCaptureGroupAll(text, regexp);
+            assert.deepStrictEqual(captureGroups, [
+                {text: 'c', index: -1},
+                {text: undefined, index: -1},
+                {text: '1', index: 3},
+                {text: 'c', index: 3},
+                {text: undefined, index: 3},
+                {text: '1', index: 3}
+            ])
+        })
     });
 });

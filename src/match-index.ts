@@ -26,7 +26,7 @@ export type MatchAllGroup = {
  */
 export function matchCaptureGroupAll(text: string, regExp: RegExp): MatchCaptureGroup[] {
     const source = regExp.source;
-    assert(source.indexOf("(") >= 0, "RegExp should contain capture group at least one");
+    assert(source.indexOf("(") >= 0, "RegExp should contains capture group at least one");
     const all = matchAll(text, regExp);
     const captureGroups: MatchCaptureGroup[] = [];
     all.forEach(match => {
@@ -61,7 +61,6 @@ export function matchAll(text: string, regExp: RegExp): MatchAllGroup[] {
             captureGroups: []
         };
         const groups = matchAll.slice(1);
-
         const captureGroups = [];
         for (let cursor = match.index, l = groups.length, i = 0; i < l; i++) {
             let index = cursor;
@@ -81,7 +80,7 @@ export function matchAll(text: string, regExp: RegExp): MatchAllGroup[] {
                 index = text.indexOf(groups[i], cursor);
 
             }
-            cursor = index + groups[i].length;
+            cursor = index + (groups[i] ? groups[i].length : 0);
             const captureGroup = {
                 text: groups[i],
                 index
