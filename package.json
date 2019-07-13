@@ -1,6 +1,6 @@
 {
   "name": "match-index",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "match capture groups and return index",
   "keywords": [
     "regexp"
