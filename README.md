@@ -5,6 +5,13 @@ Get index of each capture.
 - [Get index of each capture in a JavaScript regex - Stack Overflow](http://stackoverflow.com/questions/15934353/get-index-of-each-capture-in-a-javascript-regex)
 - [tc39/String.prototype.matchAll: ES Proposal, specs, tests, reference implementation, and polyfill/shim for String.prototype.matchAll](https://github.com/tc39/String.prototype.matchAll#rationale)
 
+## Status: Deprecated
+
+`indices` property cover this library usecase.
+
+- [tc39/proposal-regexp-match-indices: ECMAScript RegExp Match Indices](https://github.com/tc39/proposal-regexp-match-indices)
+- [regexp-match-indices - npm](https://www.npmjs.com/package/regexp-match-indices)
+
 ## Why?
 
 You want to match a regex like `/(a.)(b)(c.)d/` with "aabccde", and get the following information back:
