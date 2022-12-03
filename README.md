@@ -1,6 +1,6 @@
 # match-index [![Build Status](https://travis-ci.org/azu/match-index.svg?branch=master)](https://travis-ci.org/azu/match-index)
 
-## Deprecated: use native [String.prototype.matchAll()](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String/matchAll).
+## Deprecated: use native [String.prototype.matchAll()](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String/matchAll) and [RegExp Match Indices](https://github.com/tc39/proposal-regexp-match-indices)
 
 Get index of each capture.
 
