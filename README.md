@@ -1,5 +1,7 @@
 # match-index [![Build Status](https://travis-ci.org/azu/match-index.svg?branch=master)](https://travis-ci.org/azu/match-index)
 
+## Deprecated: use native [String.prototype.matchAll()](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String/matchAll).
+
 Get index of each capture.
 
 - [Get index of each capture in a JavaScript regex - Stack Overflow](http://stackoverflow.com/questions/15934353/get-index-of-each-capture-in-a-javascript-regex)
