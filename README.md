@@ -1,4 +1,4 @@
-# match-index [![Build Status](https://travis-ci.org/azu/match-index.svg?branch=master)](https://travis-ci.org/azu/match-index)
+# match-index [![test](https://github.com/azu/match-index/actions/workflows/test.yml/badge.svg)](https://github.com/azu/match-index/actions/workflows/test.yml)
 
 ## Deprecated: use native [String.prototype.matchAll()](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String/matchAll) and [RegExp Match Indices](https://github.com/tc39/proposal-regexp-match-indices)
 
