@@ -146,6 +146,17 @@ export function matchAll(text: string, regExp: RegExp): MatchAllGroup[] {
             }
         }
     }
+    // Search first, and collect only when the text has a match: most calls have no match.
+    // A RegExp without the g and y flags searches from the start of the text, and does not change `lastIndex`.
+    if (
+        !regExp.global &&
+        !regExp.sticky &&
+        typeof text === "string" &&
+        Object.getPrototypeOf(regExp) === RegExp.prototype &&
+        regExp.exec(text) === null
+    ) {
+        return [];
+    }
     return matchAllByGlobalRegExp(text, createGlobalRegExp(regExp));
 }
 
