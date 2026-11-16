@@ -19,42 +19,12 @@ export type MatchAllGroup = {
     captureGroups: MatchCaptureGroup[]
 }
 
-type GlobalRegExpCache = {
-    flags: string;
-    regExp: RegExp;
-}
 /**
- * The global version of the RegExp that is passed to `matchAll`, by the source of the RegExp.
- * It avoids creating a RegExp object in every call.
- * The key is the source and not the RegExp object, because some callers create the same RegExp in every call.
+ * Return a new RegExp object that has the same source and flags with `regExp`, and has the `g` flag.
  */
-const globalRegExpCache: Map<string, GlobalRegExpCache> | undefined = typeof Map === "function"
-    ? new Map()
-    : undefined;
-/**
- * The cache is cleared at this size, so that callers which create endless patterns do not leak memory.
- */
-const GLOBAL_REG_EXP_CACHE_LIMIT = 1000;
-
-/**
- * Return a RegExp object that has the same source and flags with `regExp`, and has the `g` flag.
- * The returned object is not `regExp`, so `matchAll` never changes `regExp.lastIndex`.
- */
-const getGlobalRegExp = (regExp: RegExp): RegExp => {
-    const source = regExp.source;
+const createGlobalRegExp = (regExp: RegExp): RegExp => {
     const flags: string = regExp.flags || flagsGetter(regExp);
-    const cache = globalRegExpCache !== undefined ? globalRegExpCache.get(source) : undefined;
-    if (cache !== undefined && cache.flags === flags) {
-        return cache.regExp;
-    }
-    const globalRegExp = new RegExp(source, flags.indexOf("g") === -1 ? "g" + flags : flags);
-    if (globalRegExpCache !== undefined) {
-        if (globalRegExpCache.size >= GLOBAL_REG_EXP_CACHE_LIMIT) {
-            globalRegExpCache.clear();
-        }
-        globalRegExpCache.set(source, { flags, regExp: globalRegExp });
-    }
-    return globalRegExp;
+    return new RegExp(regExp.source, flags.indexOf("g") === -1 ? "g" + flags : flags);
 };
 
 /**
@@ -157,13 +127,38 @@ export function matchCaptureGroupAll(text: string, regExp: RegExp): MatchCapture
  * http://stackoverflow.com/questions/15934353/get-index-of-each-capture-in-a-javascript-regex
  */
 export function matchAll(text: string, regExp: RegExp): MatchAllGroup[] {
+    // A global RegExp is used as it is, without creating a RegExp object in every call.
+    // It matches from the start of the text, and `lastIndex` is restored after that.
+    if (regExp.global && Object.getPrototypeOf(regExp) === RegExp.prototype) {
+        const lastIndex = regExp.lastIndex;
+        let isWritable = true;
+        try {
+            regExp.lastIndex = 0;
+        } catch (error) {
+            // a frozen RegExp
+            isWritable = false;
+        }
+        if (isWritable) {
+            try {
+                return matchAllByGlobalRegExp(text, regExp);
+            } finally {
+                regExp.lastIndex = lastIndex;
+            }
+        }
+    }
+    return matchAllByGlobalRegExp(text, createGlobalRegExp(regExp));
+}
+
+/**
+ * @param text
+ * @param rx a RegExp that has the `g` flag, and its `lastIndex` is 0
+ */
+function matchAllByGlobalRegExp(text: string, rx: RegExp): MatchAllGroup[] {
     const matches: MatchAllGroup[] = [];
-    const rx = getGlobalRegExp(regExp);
     if (typeof text !== "string") {
         // keep the behavior for a value that is not a string: it is an error, or the value decides the result
         return matchAllByReplace(text, rx);
     }
-    rx.lastIndex = 0;
     let match = rx.exec(text);
     if (match === null) {
         return matches;
@@ -189,6 +184,5 @@ export function matchAll(text: string, regExp: RegExp): MatchAllGroup[] {
         }
         match = rx.exec(text);
     } while (match !== null);
-    rx.lastIndex = 0;
     return matches;
 }

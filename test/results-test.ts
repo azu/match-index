@@ -208,6 +208,22 @@ describe("results", function () {
         assert.deepStrictEqual(matchAll(text, sticky), expectedSticky);
         assert.strictEqual(sticky.lastIndex, 4);
     });
+    it("restores lastIndex of a global RegExp for named capture groups and for an error", function () {
+        const named = /(?<letter>a)/g;
+        named.lastIndex = 2;
+        assert.strictEqual(matchAll("aaa", named).length, 3);
+        assert.strictEqual(named.lastIndex, 2);
+        const pattern = /(a)/g;
+        pattern.lastIndex = 2;
+        assert.throws(() => matchAll(undefined as any, pattern));
+        assert.strictEqual(pattern.lastIndex, 2);
+    });
+    it("returns the same results for a frozen RegExp", function () {
+        const text = "ABC ABC ABC";
+        const expected = matchAll(text, /(ABC)/g);
+        assert.deepStrictEqual(matchAll(text, Object.freeze(/(ABC)/g) as RegExp), expected);
+        assert.deepStrictEqual(matchAll(text, Object.freeze(/(ABC)/) as RegExp), expected);
+    });
     it("returns the same results in a call during another call", function () {
         const text = "ab ab ab";
         const pattern = /(a)(b)/g;
